@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SciGenesis: Building Executable Scientific Worlds for Embodied Intelligence</title>
+<meta name="description" content="SciGenesis is a library of high-quality scientific instrument assets modeled part by part from photographs and manuals with working mechanisms, and SciGenesis-Bench evaluates multimodal LLMs and VLA models on understanding and operating them.">
+<meta property="og:title" content="SciGenesis: Building Executable Scientific Worlds for Embodied Intelligence">
+<meta property="og:description" content="Scientific instruments that look, move and behave like the real devices, and a benchmark that scores success, validity and safety.">
+<meta property="og:image" content="assets/hero/hero_sm.webp">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<meta name="theme-color" content="#05070b">
+<link rel="preload" href="assets/fonts/InterDisplay-ExtraBold-title.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/Inter-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="style.css?v=20261125b">
+<script>
+(() => {
+  const c = navigator.connection || {}, q = location.search;
+  const slow = !!c.saveData || /2g|3g/.test(c.effectiveType || '') || /[?&]lite\b/.test(q);
+  const weak = slow || (navigator.deviceMemory || 8) <= 4 || (navigator.hardwareConcurrency || 8) <= 4;
+  window.SG = { slow, weak };
+  const start = v => { if (!v.dataset.on) { v.dataset.on = 1; v.querySelectorAll('source[data-src]').forEach(s => s.src = s.dataset.src); v.load(); } v.play().catch(() => {}); };
+  const io = !slow && 'IntersectionObserver' in window && new IntersectionObserver(es => es.forEach(({ target: v, isIntersecting: on }) => on ? start(v) : v.pause()), { rootMargin: '200px 0px' });
+  addEventListener('load', () => document.querySelectorAll('video[data-lazy]').forEach(v => {
+    if (io) io.observe(v); else if (!slow) start(v);
+  }));
+  addEventListener('click', e => { const v = e.target.closest && e.target.closest('video[data-lazy]'); if (v) v.paused ? start(v) : v.pause(); });
+})();
+</script>
+<script type="importmap">{"imports": {"three": "./assets/three/three.module.min.js", "three/addons/": "./assets/three/addons/"}}</script>
+</head>
+<body>
+
+<nav class="topnav" id="topnav">
+  <a class="brand" href="#top">SciGenesis</a>
+  <div class="links">
+    <a href="#overview" class="opt">Overview</a>
+    <a href="#explore">3D</a>
+    <a href="#instruments" class="opt">Instruments</a>
+    <a href="#mechanisms" class="opt">Mechanisms</a>
+    <a href="#bench" class="opt2">Benchmark</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="hero-bg"><video data-lazy muted loop playsinline preload="none" poster="assets/motion/hero_wall.jpg"><source data-src="assets/motion/hero_wall.mp4" type="video/mp4"></video></div>
+  <div class="hero-inner">
+    <div class="hero-mark rv"><img src="assets/logo.svg" alt="" width="112" height="112"></div>
+    <div class="wordmark rv d1" role="heading" aria-level="1">Sci<span>Genesis</span></div>
+    <h1 class="rv d2">Building Executable Scientific Worlds<br>for Embodied Intelligence</h1>
+    <div class="authors rv d2">
+      <p class="names"><span>Rui Li<sup>1,2*</sup></span><span>Zixuan Hu<sup>3*</sup></span><span>Fucheng Cai<sup>1</sup></span><span>Chenxi Li<sup>4,2</sup></span><span>Zhangrui Zhao<sup>5,2</sup></span><span>Minting Pan<sup>2</sup></span><span>Lei Bai<sup>2</sup></span><span>Weinan Zhang<sup>2</sup></span><span>Lingyu Duan<sup>3&dagger;</sup></span><span>Wangmeng Zuo<sup>1&dagger;</sup></span><span>Dongzhan Zhou<sup>2&dagger;</sup></span></p>
+      <p class="affils"><span><sup>1</sup>Harbin Institute of Technology</span><span><sup>2</sup>Shanghai Artificial Intelligence Laboratory</span><span><sup>3</sup>Peking University</span><span><sup>4</sup>Zhejiang University</span><span><sup>5</sup>Beihang University</span></p>
+      <p class="notes"><sup>*</sup>Equal contribution &nbsp;&middot;&nbsp; <sup>&dagger;</sup>Corresponding authors</p>
+    </div>
+    <div class="buttons rv d3">
+      <a class="btn primary" href="#explore"><svg viewBox="0 0 24 24"><path d="M12 2l9 5v10l-9 5-9-5V7z M3 7l9 5 9-5 M12 12v10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Explore in 3D</a>
+      <a class="btn disabled" title="Coming soon"><svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6z M14 2v6h6" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Paper</a>
+      <a class="btn disabled" title="Coming soon"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>Code</a>
+      <a class="btn disabled" title="Coming soon"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M1.4446 11.5059c0 1.1021.1673 2.1585.4847 3.1563-.0378-.0028-.0691-.0058-.1058-.0058-.4209 0-.8015.16-1.0704.4512-.3454.3737-.4984.8335-.4316 1.293a1.576 1.576 0 0 0 .2148.5978c-.2319.1864-.4018.4456-.4844.7578-.0646.2448-.131.7543.2149 1.2794a1.4552 1.4552 0 0 0-.0625.1055c-.208.3923-.2207.8372-.0371 1.25.2783.6258.9696 1.1175 2.3126 1.6467.8356.3292 1.5988.5411 1.6056.543 1.1046.2847 2.104.4277 2.969.4277 1.4173 0 2.4754-.3849 3.1525-1.1446 1.538.2651 2.791.1403 3.592.006.6773.7555 1.7332 1.1387 3.1467 1.1387.8649 0 1.8643-.143 2.969-.4278.0068-.0019.77-.2138 1.6056-.543 1.343-.5292 2.0343-1.0208 2.3126-1.6466.1836-.4129.171-.8577-.037-1.25a1.4685 1.4685 0 0 0-.0626-.1056c.346-.525.2795-1.0346.2149-1.2793-.0826-.3122-.2525-.5714-.4844-.7579.11-.1816.1831-.3788.2148-.5977.0669-.4595-.0862-.9193-.4316-1.293-.2688-.2913-.6495-.4513-1.0704-.4513-.0209 0-.0376.0008-.0588.0018.3162-.9966.4846-2.0518.4846-3.1523 0-5.807-4.7362-10.5144-10.5789-10.5144-5.8426 0-10.5788 4.7073-10.5788 10.5144Zm10.5788-9.4831c5.2727 0 9.5476 4.246 9.5476 9.483a9.4201 9.4201 0 0 1-.2696 2.2365c-.0039-.0047-.0079-.011-.0117-.0156-.274-.3255-.6679-.5059-1.1075-.5059-.352 0-.714.1155-1.0763.3438-.2403.1517-.5058.422-.7793.7598-.2534-.3492-.608-.5832-1.0137-.6465a1.5174 1.5174 0 0 0-.2344-.0176c-.9263 0-1.4828.7993-1.6935 1.5177-.1046.2426-.6065 1.3482-1.3614 2.0978-1.1681 1.1601-1.4458 2.3534-.8396 3.6382-.843.1029-1.5836.0927-2.365-.006.5906-1.212.3626-2.4388-.8426-3.6322-.755-.7496-1.2568-1.8552-1.3614-2.0978-.2107-.7184-.7673-1.5177-1.6935-1.5177-.078 0-.1568.0054-.2344.0176-.4057.0633-.7604.2973-1.0137.6465-.2735-.3379-.539-.6081-.7794-.7598-.3622-.2283-.7243-.3438-1.0762-.3438-.4266 0-.8094.171-1.0821.4786a9.4208 9.4208 0 0 1-.2598-2.1936c0-5.237 4.2749-9.483 9.5475-9.483zM8.6443 7.0036c-.4838.0043-.9503.2667-1.1934.7227-.3536.6633-.1006 1.4873.5645 1.84.351.1862.4883-.5261.836-.6485.3107-.1095.841.399 1.0078.086.3536-.6634.1025-1.4874-.5625-1.84a1.3659 1.3659 0 0 0-.6524-.1602Zm6.8403 0c-.2199-.002-.4426.05-.6504.1602-.665.3526-.9181 1.1766-.5645 1.84.1669.313.6971-.1955 1.0079-.086.3476.1224.4867.8347.838.6485.6649-.3527.916-1.1767.5624-1.84-.243-.456-.7096-.7184-1.1934-.7227Zm-9.7565 1.418a.8768.8768 0 0 0-.877.877c0 .4846.3925.877.877.877a.8768.8768 0 0 0 .877-.877.8768.8768 0 0 0-.877-.877zm12.6434 0c-.4845 0-.879.3925-.879.877 0 .4846.3945.877.879.877a.8768.8768 0 0 0 .877-.877.8768.8768 0 0 0-.877-.877zM8.7927 11.459c-.179-.003-.2793.1107-.2793.416 0 .8097.3874 2.125 1.4279 2.924.207-.7123 1.3453-1.2832 1.5079-1.2012.2315.1167.2191.4417.6074.7266.3884-.285.374-.6098.6056-.7266.1627-.082 1.3009.4889 1.5079 1.2012 1.0404-.799 1.4278-2.1144 1.4278-2.924 0-1.2212-1.583.6402-3.5413.6485-1.4686-.0061-2.7266-1.0558-3.2639-1.0645zM4.312 14.4768c.5792.365 1.6964 2.2751 2.1056 3.0177.1371.2488.371.3536.582.3536.4188 0 .7465-.4138.0391-.9395-1.0636-.791-.6914-2.0846-.1836-2.1642a.4302.4302 0 0 1 .0664-.004c.4616 0 .666.7892.666.7892s.5959 1.4898 1.6213 2.508c.942.9356 1.062 1.703.4961 2.6661-.0164-.004-.0159.0236-.1484.2149-.1853.2673-.4322.4688-.7188.6152-.5062.2269-1.1397.2696-1.7833.2696-1.037 0-2.1017-.1824-2.6975-.336-.0293-.0075-3.6505-.9567-3.1916-1.8224.0771-.1454.2033-.2031.3633-.2031.6463 0 1.823.9551 2.3283.9551.113 0 .196-.0865.2285-.2031.2249-.8045-3.2787-1.0522-2.9846-2.1642.0519-.1967.193-.2757.3907-.2754.854 0 2.7704 1.4923 3.172 1.4923.0307 0 .0525-.0085.0645-.0274.2012-.3227.1096-.5865-1.3087-1.4395-1.4182-.8533-2.4315-1.329-1.8653-1.9416.0651-.0707.1574-.1015.2695-.1015.8611.0002 2.8948 1.84 2.8948 1.84s.5487.5683.8809.5683c.0762 0 .1416-.0315.1855-.1054.2355-.3946-2.1858-2.2183-2.3224-2.971-.0926-.51.0641-.7676.3555-.7676-.0006.008.1701-.0285.4942.1759zm16.2257.5918c-.1366.7526-2.5579 2.5764-2.3224 2.9709.044.074.1092.1055.1855.1055.3321 0 .881-.5684.881-.5684s2.0336-1.8397 2.8947-1.84c.1121 0 .2044.0308.2695.1016.5662.6125-.447 1.0882-1.8653 1.9415-1.4183.853-1.51 1.1168-1.3087 1.4396.012.0188.0337.0273.0644.0273.4016 0 2.3181-1.4923 3.1721-1.4923.1977-.0002.3388.0787.3907.2754.294 1.112-3.2095 1.3597-2.9846 2.1642.0325.1166.1156.2032.2285.2032.5054 0 1.682-.9552 2.3283-.9552.16 0 .2862.0577.3633.2032.459.8656-3.1623 1.8149-3.1916 1.8224-.5958.1535-1.6605.336-2.6975.336-.6351 0-1.261-.0409-1.7638-.2599-.2949-.1472-.5488-.3516-.7383-.625-.0411-.0682-.1026-.1476-.1426-.205-.5726-.9679-.455-1.7371.4903-2.676 1.0254-1.0182 1.6212-2.508 1.6212-2.508s.2044-.7891.666-.7891a.4318.4318 0 0 1 .0665.0039c.5078.0796.88 1.3732-.1836 2.1642-.7074.5257-.3797.9395.039.9395.211 0 .445-.1047.5821-.3535.4092-.7426 1.5264-2.6527 2.1056-3.0178.5588-.3524.99-.1816.8497.5918z"/></svg>Assets</a>
+      <a class="btn" href="#bench"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Benchmark</a>
+    </div>
+  </div>
+  <a class="scroll-cue" href="#overview" aria-label="Scroll down"></a>
+</header>
+
+<main>
+
+<section class="wrap narrow" id="overview">
+  <p class="tldr rv center">Instruments that <em class="grad">look, move and behave</em> like the real thing, and a benchmark that tests whether agents can <em class="grad">use them safely</em>.</p>
+</section>
+
+<section class="numbers wrap" id="numbers"></section>
+
+<section class="pano" id="lab">
+  <img data-parallax src="assets/hero/hero.webp" srcset="assets/hero/hero_sm.webp 1280w, assets/hero/hero.webp 2880w" sizes="100vw" alt="SciGenesis instruments path traced in one laboratory" loading="lazy">
+  <div class="pano-text rv">
+    <h2>One laboratory, <span class="grad">every bench is an asset</span></h2>
+
+  </div>
+</section>
+
+<section id="explore">
+  <div class="wrap">
+    <span class="kicker cyan rv">Interactive 3D</span>
+    <h2 class="rv">Open it. Turn it. <span class="grad">Look inside.</span></h2>
+    <div class="viewer rv" id="viewer">
+      <div class="stage" id="stage">
+        <div class="load" id="v-load"><div>Loading model<i></i></div></div>
+        <div class="tip" id="v-tip"></div>
+        <div class="stage-hint">drag to turn &middot; click, then scroll to zoom &middot; hover parts</div>
+        <div class="stage-ui">
+          <button id="v-play">&#9654; Play joints</button>
+          <button id="v-rotate" class="on">Auto-rotate</button>
+          <button id="v-reset">Reset</button>
+        </div>
+      </div>
+      <aside class="vpanel">
+        <small class="kind" id="v-kind"></small>
+        <h3 id="v-name"></h3>
+        <div class="vstats" id="v-stats"></div>
+        <h4>Joints</h4>
+        <div id="v-joints"></div>
+        <p class="vnote">Joint axes, pivots and limits come straight from the asset manifest that Isaac Sim and Blender use.</p>
+      </aside>
+    </div>
+    <div class="vpicker rv" id="v-picker"></div>
+  </div>
+</section>
+
+<section class="wrap" id="pipeline">
+  <h2 class="center rv">From a real instrument to an <span class="grad">executable world</span></h2>
+
+  <div class="journey rv" id="journey"></div>
+</section>
+
+<section class="band" id="instruments">
+  <div class="wrap">
+    <span class="kicker blue rv">Assets</span>
+    <h2 class="rv"><span data-n="instruments"></span> instruments, <span class="grad">five disciplines</span></h2>
+
+    <div class="lib-head rv" id="lib-head"></div>
+  </div>
+  <div class="libwall" id="libwall"></div>
+</section>
+
+<section class="wrap" id="mechanisms">
+  <span class="kicker amber rv">Mechanisms</span>
+  <h2 class="rv">Twelve mechanisms make instruments respond</h2>
+  <p class="lead rv">Six physical, six electronic, each running live on its instrument. Drag the glowing parts.</p>
+  <div class="mx rv" id="mx"></div>
+</section>
+
+<section class="wrap" id="bench">
+  <span class="kicker violet rv">SciGenesis-Bench</span>
+  <h2 class="rv">Three experiments of increasing depth</h2>
+
+  <div class="exp-cards rv">
+    <a class="exp glow" href="#exp1"><span class="num">1</span><h3>See</h3><p><b class="big" data-n="bench1_questions"></b> visual questions</p></a>
+    <a class="exp glow" href="#exp2"><span class="num">2</span><h3>Operate</h3><p><b class="big" data-n="bench2_tasks"></b> closed-loop tasks</p></a>
+    <a class="exp glow" href="#exp3"><span class="num">3</span><h3>Touch</h3><p><b class="big" data-n="exp3_tasks"></b> contact-rich tasks</p></a>
+  </div>
+
+  <div class="sub" id="exp1">
+    <h3><span class="num sm">1</span>Understand before touching</h3>
+    <div class="showcase rv" id="x1"></div>
+    <div class="board rv" id="b1"></div>
+  </div>
+
+  <div class="sub" id="exp2">
+    <h3><span class="num sm">2</span>Operate in closed loop</h3>
+
+    <div class="episode rv" id="episode"></div>
+  </div>
+
+  <div class="sub" id="exp3">
+    <h3><span class="num sm">3</span>Touch through a robot</h3>
+    <div class="showcase rv" id="x3"></div>
+  </div>
+</section>
+
+<section class="wrap narrow" id="cite">
+  <h2 class="rv">Citation</h2>
+  <div class="bib"><button class="copy" id="bib-copy">Copy</button><pre id="bib"></pre></div>
+</section>
+
+</main>
+
+<footer>
+  <p>Every image, video and model here is a SciGenesis asset.</p>
+</footer>
+
+<div class="lightbox" id="lightbox"><img alt=""><p></p></div>
+
+<script src="data.js?v=20261125b"></script>
+<script src="paper.js?v=20261125b"></script>
+<script src="app.js?v=20261125b"></script>
+<script src="showcase.js?v=20261125b"></script>
+<script type="module">
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { io.unobserve(e.target); import(e.target.dataset.js); } }), { rootMargin: '1500px 0px' });
+[['explore', './viewer.js?v=20261125b'], ['pipeline', './journey.js?v=20261125b'], ['mechanisms', './mech.js?v=20261125b']]
+  .forEach(([id, js]) => { const s = document.getElementById(id); s.dataset.js = js; io.observe(s); });
+</script>
+</body>
+</html>

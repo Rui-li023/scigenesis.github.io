@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- SciGenesis mark: a hexagon (molecule, laboratory) around an instrument dial whose pointer is the "genesis" spark -->
+  <defs>
+    <linearGradient id="sg-g" x1="6" y1="6" x2="58" y2="58" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#5ff0e0"/><stop offset=".45" stop-color="#6aa8ff"/><stop offset=".8" stop-color="#a98bff"/><stop offset="1" stop-color="#f39cff"/>
+    </linearGradient>
+    <radialGradient id="sg-c" cx="32" cy="32" r="16" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6aa8ff" stop-opacity=".35"/><stop offset="1" stop-color="#6aa8ff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <path d="M32 4.5 55.8 18.25v27.5L32 59.5 8.2 45.75v-27.5Z" stroke="url(#sg-g)" stroke-width="4" stroke-linejoin="round"/>
+  <circle cx="32" cy="32" r="15" fill="url(#sg-c)"/>
+  <circle cx="32" cy="32" r="10.5" stroke="url(#sg-g)" stroke-width="3.6"/>
+  <path d="M32 32 40.5 23.5" stroke="#fff" stroke-width="3.6" stroke-linecap="round"/>
+  <circle cx="32" cy="32" r="2.6" fill="#fff"/>
+  <path d="M18.6 32h-3.2M32 18.6v-3.2M45.4 32h3.2" stroke="url(#sg-g)" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="44.2" cy="19.8" r="2.4" fill="#fff"/>
+</svg>
