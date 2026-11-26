@@ -252,7 +252,7 @@
     const host = $('#x3'); if (!host) return;
     const V = P.vla || [], T = P.vla_tasks || [], R = P.real || [];
     const PC = ['#5ff0e0', '#a98bff', '#fbbf4d', '#ff7a9a'];
-    host.innerHTML = `<div class="vwall"><video data-lazy muted loop playsinline preload="none" poster="assets/motion/exp3_wall.jpg?v=20261125c"><source data-src="assets/motion/exp3_wall.mp4?v=20261125c" type="video/mp4"></video>
+    host.innerHTML = `<div class="vwall"><video data-lazy muted loop playsinline preload="none" poster="assets/motion/exp3_wall.jpg?v=20261125h"><source data-src="assets/motion/exp3_wall.mp4?v=20261125h" type="video/mp4"></video>
         ${['Cuvette into spectrophotometer', 'Vial pressed on vortex mixer', 'Vial onto balance', 'Vial into cabinet', 'Vial out of cabinet', 'Flask onto hotplate stirrer'].map((t, i) => `<span style="left:${(i % 3) * 33.33 + 1}%;top:${Math.floor(i / 3) * 50 + 2.5}%">${t}</span>`).join('')}
         </div>
       <div class="x3-charts">

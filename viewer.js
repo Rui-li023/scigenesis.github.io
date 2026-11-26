@@ -3,14 +3,14 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
-import { tune, wheelAfterClick } from './lite.js?v=20261125c';
+import { tune, wheelAfterClick } from './lite.js?v=20261125h';
 
 const $ = q => document.querySelector(q);
 const stage = $('#stage'), tip = $('#v-tip'), load = $('#v-load');
 if (stage) init();
 
 async function init() {
-  const models = await (await fetch('assets/3d/models.json?v=20261125c')).json();
+  const models = await (await fetch('assets/3d/models.json?v=20261125h')).json();
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
   renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -112,7 +112,7 @@ async function init() {
   async function getModel(info) {
     if (cache.has(info.id)) return cache.get(info.id);
     load.classList.remove('hide'); load.querySelector('div').firstChild.textContent = `Loading ${info.kind.toLowerCase()}`;
-    const gltf = await loader.loadAsync(`assets/3d/${info.id}.glb?v=20261125c`, e => { if (e.total) load.style.setProperty('--p', `${(e.loaded / e.total * 100).toFixed(0)}%`); });
+    const gltf = await loader.loadAsync(`assets/3d/${info.id}.glb?v=20261125h`, e => { if (e.total) load.style.setProperty('--p', `${(e.loaded / e.total * 100).toFixed(0)}%`); });
     const root = gltf.scene;
 
     const junk = []; root.traverse(o => { if (/studio_floor|__hit_|__readout_|collider|collision/i.test(o.name)) junk.push(o); });
