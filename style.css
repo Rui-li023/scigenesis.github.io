@@ -78,7 +78,7 @@ h4 { font-size: 1.02rem; font-weight: 600; }
 .wordmark { font: 800 clamp(3.4rem, 11.5vw, 9.2rem)/0.95 "Inter Display", Inter, system-ui, sans-serif; letter-spacing: -.055em; margin: 0 0 26px; padding: 0 .04em .06em;
   color: #fff; background: linear-gradient(180deg, #fff 30%, #c9d6ea 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
   filter: drop-shadow(0 6px 36px rgba(60,140,255,.35)); }
-.wordmark span { background: linear-gradient(100deg, #5ff0e0 0%, #6aa8ff 30%, #a98bff 60%, #f39cff 80%, #6aa8ff 100%) 0 0 / 200% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: sheen 9s ease-in-out infinite; }
+.wordmark span { padding-right: .1em; margin-right: -.1em; background: linear-gradient(100deg, #5ff0e0 0%, #6aa8ff 30%, #a98bff 60%, #f39cff 80%, #6aa8ff 100%) 0 0 / 200% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: sheen 9s ease-in-out infinite; }
 @keyframes sheen { 50% { background-position: 100% 0; } }
 @media (prefers-reduced-motion: reduce) { .wordmark span, .hero-mark { animation: none; } }
 .hero h1 { font-size: clamp(1.5rem, 3.4vw, 2.75rem); font-weight: 600; letter-spacing: -.025em; margin-bottom: 18px; color: #fff; text-shadow: 0 2px 30px rgba(0,0,0,.6); }

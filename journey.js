@@ -3,14 +3,14 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
-import { tune } from './lite.js?v=20261125h';
+import { tune } from './lite.js?v=20261126a';
 
 const host = document.querySelector('#journey');
 if (host) init();
 
 async function init() {
   const S = 'assets/story/';
-  const [models, curves] = await Promise.all([fetch('assets/3d/models.json?v=20261125h').then(r => r.json()), fetch(S + 'curves.json').then(r => r.json())]);
+  const [models, curves] = await Promise.all([fetch('assets/3d/models.json?v=20261126a').then(r => r.json()), fetch(S + 'curves.json').then(r => r.json())]);
   const P = window.PAPER || {};
   const byId = Object.fromEntries(models.map(m => [m.id, m]));
 
@@ -56,7 +56,7 @@ async function init() {
   const tmp = [new THREE.Matrix4(), new THREE.Matrix4(), new THREE.Matrix4()];
   async function load(id) {
     if (cache.has(id)) return cache.get(id);
-    const info = byId[id] || { id, part_body: {}, joints: [], shown: [] }, gltf = await loader.loadAsync(`assets/3d/${id}.glb?v=20261125h`), root = gltf.scene;
+    const info = byId[id] || { id, part_body: {}, joints: [], shown: [] }, gltf = await loader.loadAsync(`assets/3d/${id}.glb?v=20261126a`), root = gltf.scene;
     const junk = []; root.traverse(o => { if (/studio_floor|__hit_|__readout_|collider|collision/i.test(o.name)) junk.push(o); }); junk.forEach(o => o.parent && o.parent.remove(o));
     root.traverse(o => { if (o.isMesh) { o.castShadow = o.receiveShadow = true; o.userData.mat0 = o.material; } });
 
