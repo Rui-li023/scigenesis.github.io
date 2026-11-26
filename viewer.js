@@ -3,14 +3,14 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
-import { tune, wheelAfterClick } from './lite.js?v=20261125b';
+import { tune, wheelAfterClick } from './lite.js?v=20261125c';
 
 const $ = q => document.querySelector(q);
 const stage = $('#stage'), tip = $('#v-tip'), load = $('#v-load');
 if (stage) init();
 
 async function init() {
-  const models = await (await fetch('assets/3d/models.json')).json();
+  const models = await (await fetch('assets/3d/models.json?v=20261125c')).json();
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
   renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -112,7 +112,7 @@ async function init() {
   async function getModel(info) {
     if (cache.has(info.id)) return cache.get(info.id);
     load.classList.remove('hide'); load.querySelector('div').firstChild.textContent = `Loading ${info.kind.toLowerCase()}`;
-    const gltf = await loader.loadAsync(`assets/3d/${info.id}.glb`, e => { if (e.total) load.style.setProperty('--p', `${(e.loaded / e.total * 100).toFixed(0)}%`); });
+    const gltf = await loader.loadAsync(`assets/3d/${info.id}.glb?v=20261125c`, e => { if (e.total) load.style.setProperty('--p', `${(e.loaded / e.total * 100).toFixed(0)}%`); });
     const root = gltf.scene;
 
     const junk = []; root.traverse(o => { if (/studio_floor|__hit_|__readout_|collider|collision/i.test(o.name)) junk.push(o); });
@@ -151,6 +151,20 @@ async function init() {
     const dims = info.dims ? info.dims.map(x => Math.round(x * 100)).join(' × ') + ' cm' : '';
     $('#v-stats').innerHTML = `<div><b>${info.parts}</b><span>parts</span></div><div><b>${info.njoints}</b><span>joints</span></div><div><b>${info.screens || '–'}</b><span>screens</span></div>` + (dims ? `<div style="grid-column:1/-1"><b style="font-size:.95rem">${dims}</b><span>real size</span></div>` : '');
     const box = $('#v-joints'); box.innerHTML = '';
+    const covers = info.joints.map((x, k) => k).filter(k => { const x = info.joints[k]; return x.kind !== 'fixed' && (/^(door|lid|service_door|cover)$/.test(x.role || '') || /\b(lid|door|cover)\b/i.test(x.label || '')); });
+    const openCovers = () => {
+      const from = covers.map(k => art.q[k]);
+      const to = covers.map(k => { const [lo, hi] = info.joints[k].limits; return Math.abs(hi) >= Math.abs(lo) ? hi : lo; });
+      if (covers.every((k, n) => Math.abs(from[n] - to[n]) < 1e-3)) return;
+      const t0 = performance.now();
+      const step = t => {
+        const k = Math.min(1, (t - t0) / 900), ease = 1 - Math.pow(1 - k, 3);
+        covers.forEach((c, n) => { art.q[c] = from[n] + (to[n] - from[n]) * ease; const x = info.joints[c]; x._sync && x._sync(); });
+        art.apply();
+        if (k < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    };
     const seen = {};
     info.shown.forEach(i => {
       const j = info.joints[i];
@@ -161,7 +175,7 @@ async function init() {
       if (j.continuous) {
         d.innerHTML = `<label><b>${name}${tag}</b><span>continuous</span></label><button class="spin">Spin</button>`;
         const b = d.querySelector('button');
-        b.onclick = () => { j._spin = !j._spin; b.classList.toggle('on', !!j._spin); b.textContent = j._spin ? 'Stop' : 'Spin'; };
+        b.onclick = () => { if (!j._spin && /rotor/.test(j.role || '')) openCovers(); j._spin = !j._spin; b.classList.toggle('on', !!j._spin); b.textContent = j._spin ? 'Stop' : 'Spin'; };
       } else {
         const [lo, hi] = j.limits;
         d.innerHTML = `<label><b>${name}${tag}</b><span>${fmtQ(j, art.q[i])}</span></label><input type="range" min="${lo}" max="${hi}" step="${(hi - lo) / 400}" value="${art.q[i]}">`;

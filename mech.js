@@ -3,7 +3,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
-import { tune, wheelAfterClick } from './lite.js?v=20261125b';
+import { tune, wheelAfterClick } from './lite.js?v=20261125c';
 
 const host = document.querySelector('#mx');
 if (host) init();
@@ -229,7 +229,7 @@ function furnaceJoint(e) {
 const meshesIn = g => { const a = []; g && g.traverse(o => o.isMesh && !o.userData.keep && a.push(o)); return a; };
 
 async function init() {
-  const META = await fetch('assets/3d/mech.json').then(r => r.json());
+  const META = await fetch('assets/3d/mech.json?v=20261125c').then(r => r.json());
   const btn = (m, i) => `<button data-i="${i}" class="${m.kind}"><img src="assets/gallery/thumb/${m.id}.webp" alt="" loading="lazy"><span><b>${m.name}</b><small>${m.cap}</small></span><i class="mx-bar"></i></button>`;
   host.innerHTML = `<div class="mx-list">
       <div class="mx-g physical"><h4><i></i>Physical<em>6</em></h4>${MECH.map((m, i) => m.kind === 'physical' ? btn(m, i) : '').join('')}</div>
@@ -258,7 +258,7 @@ async function init() {
 
   const loader = new GLTFLoader(); loader.setMeshoptDecoder(MeshoptDecoder);
   const glbs = new Map();
-  const getGlb = id => { if (!glbs.has(id)) glbs.set(id, loader.loadAsync(`assets/3d/${id}.glb`)); return glbs.get(id); };
+  const getGlb = id => { if (!glbs.has(id)) glbs.set(id, loader.loadAsync(`assets/3d/${id}.glb?v=20261125c`)); return glbs.get(id); };
   const san = THREE.PropertyBinding.sanitizeNodeName;
   const T = [new THREE.Matrix4(), new THREE.Matrix4(), new THREE.Matrix4()];
 
